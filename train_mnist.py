@@ -42,17 +42,15 @@ class Classifier(Module):
         super().__init__()
         self.affine1 = module.Affine(784, 128)
         self.act1 = module.ReLU()
-        self.affine2 = module.Affine(128, 32)
-        self.act2 = module.ReLU()
-        self.affine3 = module.Affine(32, 10)
+        self.affine2 = module.Affine(128, 10)
         self.to_prob = module.Softmax()
 
     def forward(self, x):
         h = self.affine1(x)
         h = self.act1(h)
         h = self.affine2(h)
-        h = self.act2(h)
-        h = self.affine3(h)
+        # h = self.act2(h)
+        # h = self.affine3(h)
         probs = self.to_prob(h)
         return probs
 
@@ -82,8 +80,8 @@ if __name__ == '__main__':
     model = Classifier()
     loss_fn = module.CrossEntropyLoss()
 
-    train_num_steps = 5000
-    opt = SGD(parameters(model), lr=1e-3)
+    train_num_steps = 18750
+    opt = SGD(parameters(model), lr=3e-3)
 
     step = 0
     pbar = tqdm(initial=step, total=train_num_steps, desc='Train')
